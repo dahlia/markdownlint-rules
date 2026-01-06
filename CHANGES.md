@@ -4,7 +4,7 @@
 Version 0.1.1
 -------------
 
-To be released.
+Released on January 6, 2026.
 
  -  Fixed HM005 (`heading-sentence-case`) to allow capitalization after colons
     (e.g., `Blah blah: Blah blah`) and inside quotation marks (e.g.,
