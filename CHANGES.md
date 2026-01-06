@@ -6,6 +6,11 @@ Version 0.1.1
 
 To be released.
 
+ -  Fixed HM005 (`heading-sentence-case`) to allow capitalization after colons
+    (e.g., `Blah blah: Blah blah`) and inside quotation marks (e.g.,
+    `Did you say "Hello?"`).  Both straight quotes (`"`, `'`) and curly quotes
+    (`“`, `”`, `‘`, `’`) are now recognized.
+
 
 Version 0.1.0
 -------------
