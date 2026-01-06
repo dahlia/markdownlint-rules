@@ -260,6 +260,24 @@ export function parseContentBlocks(lines: readonly string[]): ContentBlock[] {
       blockStartLine = i + 2; // 1-based, after the heading line
       continue;
     }
+
+    // Check for thematic break (---, ***, ___, or with spaces like - - -)
+    // Must be at least 3 characters and consist of only one type of marker
+    // with optional spaces
+    const thematicBreakMatch = /^[ ]{0,3}([-*_])(?:[ ]*\1){2,}[ ]*$/.exec(line);
+    if (thematicBreakMatch != null) {
+      // Found a thematic break - close current block if it has content
+      if (i > blockStartLine - 1) {
+        blocks.push({
+          startLine: blockStartLine,
+          endLine: i, // Line before the thematic break
+        });
+      }
+
+      // Next block starts after the thematic break
+      blockStartLine = i + 2; // 1-based, after the thematic break line
+      continue;
+    }
   }
 
   // Close the last block

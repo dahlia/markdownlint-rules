@@ -6,6 +6,19 @@ Version 0.2.1
 
 To be released.
 
+ -  Fixed HM003 (`reference-link-section-placement`) to recognize thematic
+    breaks (`---`, `***`, `___`, or with spaces like `- - -`) as content block
+    boundaries.  Previously, reference link definitions placed before a thematic
+    break were incorrectly reported as not being at the content block end.
+    [[#1]]
+
+ -  Fixed preset's MD013 configuration to exclude tables from line length
+    checking (`tables: false`).  Tables often cannot be wrapped easily, so they
+    should not trigger line length errors.  [[#2]]
+
+[#1]: https://github.com/dahlia/markdownlint-rules/issues/1
+[#2]: https://github.com/dahlia/markdownlint-rules/issues/2
+
 
 Version 0.2.0
 -------------
@@ -28,6 +41,22 @@ Released on January 6, 2026.
     as they typically represent type or class names in technical documentation
     (e.g., `LogOutput`, `StringBuilder`).  This can be disabled via the
     `ignore_pascal_case` option.
+
+
+Version 0.1.2
+-------------
+
+Released on January 6, 2026.
+
+ -  Fixed HM003 (`reference-link-section-placement`) to recognize thematic
+    breaks (`---`, `***`, `___`, or with spaces like `- - -`) as content block
+    boundaries.  Previously, reference link definitions placed before a thematic
+    break were incorrectly reported as not being at the content block end.
+    [[#1]]
+
+ -  Fixed preset's MD013 configuration to exclude tables from line length
+    checking (`tables: false`).  Tables often cannot be wrapped easily, so they
+    should not trigger line length errors.  [[#2]]
 
 
 Version 0.1.1
