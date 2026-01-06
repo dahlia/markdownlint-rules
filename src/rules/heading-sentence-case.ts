@@ -233,10 +233,20 @@ const headingSentenceCase: Rule = {
 
       if (words.length === 0) continue;
 
-      // Check each word after the first
+      // Find the index of the first word that contains letters
+      // (skip leading numbers like "1.", "2.", etc.)
+      let firstAlphaIndex = 0;
+      for (let j = 0; j < words.length; j++) {
+        if (/\p{L}/u.test(words[j])) {
+          firstAlphaIndex = j;
+          break;
+        }
+      }
+
+      // Check each word after the first alphabetic word
       const violations: string[] = [];
       let afterColon = false;
-      for (let j = 1; j < words.length; j++) {
+      for (let j = firstAlphaIndex + 1; j < words.length; j++) {
         const word = words[j];
         const prevWord = words[j - 1];
 

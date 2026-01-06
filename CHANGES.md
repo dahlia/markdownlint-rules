@@ -11,6 +11,10 @@ To be released.
     `Did you say "Hello?"`).  Both straight quotes (`"`, `'`) and curly quotes
     (`“`, `”`, `‘`, `’`) are now recognized.
 
+ -  Fixed HM005 (`heading-sentence-case`) to correctly handle headings that
+    start with numbers (e.g., `1. Getting started`).  The first alphabetic
+    word is now treated as the sentence start.
+
 
 Version 0.1.0
 -------------

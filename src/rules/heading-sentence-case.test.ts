@@ -257,5 +257,24 @@ Getting started
       assert.match(errors[1].errorDetail ?? "", /Title/);
       assert.match(errors[1].errorDetail ?? "", /Case/);
     });
+
+    it("should allow capitalization after leading numbers", () => {
+      const content = `# 1. Getting started
+
+## 2. Configuration options
+
+### 10. Advanced settings
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should still detect violations after leading numbers", () => {
+      const content = `# 1. Getting Started
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.match(errors[0].errorDetail ?? "", /Started/);
+    });
   });
 });
