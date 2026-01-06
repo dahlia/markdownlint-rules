@@ -56,8 +56,34 @@ const listItemMarkerSpace: Rule = {
     // Captures: (leading spaces)(marker)(spaces after marker)(content)
     const listItemPattern = /^(\s*)(-|\*|\+)(\s+)(.*)$/;
 
+    // Track if we're inside a fenced code block
+    let inCodeBlock = false;
+    let codeBlockFence = "";
+    let codeBlockFenceLength = 0;
+
     for (let i = 0; i < params.lines.length; i++) {
       const line = params.lines[i];
+
+      // Check for fenced code blocks
+      const fenceMatch = /^(\s*)(`{3,}|~{3,})/.exec(line);
+      if (fenceMatch != null) {
+        const [, , fence] = fenceMatch;
+        if (!inCodeBlock) {
+          inCodeBlock = true;
+          codeBlockFence = fence[0];
+          codeBlockFenceLength = fence.length;
+        } else if (
+          fence[0] === codeBlockFence &&
+          fence.length >= codeBlockFenceLength
+        ) {
+          inCodeBlock = false;
+          codeBlockFence = "";
+          codeBlockFenceLength = 0;
+        }
+        continue;
+      }
+
+      if (inCodeBlock) continue;
       const match = listItemPattern.exec(line);
 
       if (match == null) continue;

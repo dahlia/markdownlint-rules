@@ -6,6 +6,9 @@ Version 0.2.0
 
 To be released.
 
+ -  HM001 (`list-item-marker-space`) now skips content inside fenced code blocks.
+    Previously, list items in code block examples were incorrectly flagged.
+
 
 Version 0.1.1
 -------------

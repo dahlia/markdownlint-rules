@@ -200,4 +200,80 @@ describe("HM001: list-item-marker-space", () => {
       assert.equal(errors[0].lineNumber, 2);
     });
   });
+
+  describe("fenced code blocks", () => {
+    it("should skip list items inside fenced code blocks (tildes)", () => {
+      const content = ` -  Item before code block
+
+    ~~~~
+    - Item inside code block
+    - Another item inside
+    ~~~~
+
+ -  Item after code block
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should skip list items inside fenced code blocks (backticks)", () => {
+      const content = ` -  Item before code block
+
+    \`\`\`
+    - Item inside code block
+    - Another item inside
+    \`\`\`
+
+ -  Item after code block
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should handle nested code block examples", () => {
+      const content = ` -  When listing items after a colon:
+
+    ~~~~
+    This commit includes:
+
+    - Added foo
+    - Fixed bar
+    ~~~~
+
+ -  Another item
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should report errors for items outside code blocks", () => {
+      const content = `- Item before code block
+
+    ~~~~
+    - Item inside code block
+    ~~~~
+
+- Item after code block
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 2);
+      assert.equal(errors[0].lineNumber, 1);
+      assert.equal(errors[1].lineNumber, 7);
+    });
+
+    it("should handle code blocks with longer fences", () => {
+      const content = ` -  Item before
+
+    ~~~~~~
+    - Item inside
+    ~~~~
+    - Still inside (shorter fence doesn't close)
+    ~~~~~~
+
+ -  Item after
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+  });
 });
