@@ -28,6 +28,10 @@
     },
     "test": "deno test --allow-read",
     "test:node": "pnpm build && node --experimental-strip-types --test src/**/*.test.ts",
-    "test:bun": "pnpm build && bun test"
+    "test:bun": "pnpm build && bun test",
+    "hooks:install": "deno run --allow-read=deno.json,.git/hooks/ --allow-write=.git/hooks/ jsr:@hongminhee/deno-task-hooks",
+    "hooks:pre-commit": {
+      "dependencies": ["check"]
+    }
   }
 }
