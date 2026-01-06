@@ -6,6 +6,15 @@ Version 0.1.5
 
 To be released.
 
+ -  Preset now disables MD046 (`code-block-style`) to avoid conflict with
+    definition list syntax.  MD046 treats indented content within definition
+    lists as indented code blocks and reports false positives.  Since
+    markdownlint is based on CommonMark and does not recognize definition
+    list syntax (a Markdown extension), it cannot distinguish between
+    indented code blocks and definition list content.  [[#5]]
+
+[#5]: https://github.com/dahlia/markdownlint-rules/issues/5
+
 
 Version 0.1.4
 -------------
