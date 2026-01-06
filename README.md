@@ -138,12 +138,13 @@ documentation.
 
 Correct:
 
-~~~~
+~~~~~
 ~~~~ typescript
 const x = 1;
 ~~~~
-~~~~
+~~~~~
 
+~~~~~~
 ~~~~~ markdown
 Nested code block example:
 
@@ -151,6 +152,7 @@ Nested code block example:
 const y = 2;
 ~~~~
 ~~~~~
+~~~~~~
 
 Incorrect:
 
