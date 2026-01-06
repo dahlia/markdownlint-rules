@@ -6,6 +6,18 @@ Version 0.1.6
 
 To be released.
 
+ -  Preset now disables MD051 (`link-fragments`) to avoid false positives
+    with documentation generators.  MD051 validates link fragments using its
+    own heading-to-fragment conversion rules, which often differ from those
+    used by actual documentation generators (VitePress, Docusaurus, GitHub,
+    etc.).  This mismatch causes false positives when links work correctly
+    in the generated documentation but are flagged by markdownlint.  Since
+    documentation generators validate fragment links at build time, having
+    markdownlint validate them with different rules creates more noise than
+    value.  [[#6]]
+
+[#6]: https://github.com/dahlia/markdownlint-rules/issues/6
+
 
 Version 0.1.5
 -------------
