@@ -92,7 +92,7 @@ jobs:
       run: |
         set -ex
         if [[ "$GITHUB_REF_TYPE" == tag ]]; then
-          npm publish --access public --provenance
+          npm publish --access public --provenance --tag latest
         else
           npm publish --access public --provenance --tag dev
         fi
