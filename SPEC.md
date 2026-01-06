@@ -33,6 +33,8 @@ Style guide summary
 The following conventions are documented in [Vertana's AGENTS.md] file as a
 representative example:
 
+[Vertana's AGENTS.md]: https://github.com/dahlia/vertana/blob/main/AGENTS.md
+
 ### Headings
 
  -  Setext-style headings for document title (`===`) and sections (`---`)
@@ -67,8 +69,6 @@ representative example:
  -  One blank line between sections and major elements
  -  Two blank lines before Setext-style section headings
  -  One blank line before and after code blocks
-
-[Vertana's AGENTS.md]: https://github.com/dahlia/vertana/blob/main/AGENTS.md
 
 
 Coverage analysis

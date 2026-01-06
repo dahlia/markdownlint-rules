@@ -384,3 +384,66 @@ export function findReferenceLinkDefinitions(
 
   return results;
 }
+
+/**
+ * Finds all reference link usages in a range, excluding those inside code
+ * blocks. This includes both full reference links `[text][label]` and
+ * shortcut reference links `[label]`.
+ *
+ * @param lines - Array of lines in the document
+ * @param startLine - 1-based start line
+ * @param endLine - 1-based end line
+ * @returns Array of objects with lineNumber and label (lowercase)
+ */
+export function findReferenceLinkUsages(
+  lines: readonly string[],
+  startLine: number,
+  endLine: number,
+): Array<{ lineNumber: number; label: string }> {
+  const results: Array<{ lineNumber: number; label: string }> = [];
+  const codeBlockLines = findCodeBlockLines(lines);
+
+  // Patterns for reference links:
+  // - Full reference: [text][label]
+  // - Collapsed reference: [label][]
+  // - Shortcut reference: [label] (not followed by : or ()
+  // We need to avoid matching reference definitions [label]: url
+  const fullRefPattern = /\[[^\]]+\]\[([^\]]+)\]/g;
+  const shortcutRefPattern = /\[([^\]]+)\](?!\s*[:\[(])/g;
+
+  for (let i = startLine - 1; i < endLine; i++) {
+    // Skip lines inside code blocks
+    if (codeBlockLines.has(i)) continue;
+
+    const line = lines[i];
+
+    // Skip reference link definitions
+    if (/^\s*\[[^\]]+\]:\s+\S+/.test(line)) continue;
+
+    // Find full reference links [text][label]
+    let match: RegExpExecArray | null;
+    fullRefPattern.lastIndex = 0;
+    while ((match = fullRefPattern.exec(line)) != null) {
+      results.push({
+        lineNumber: i + 1,
+        label: match[1].toLowerCase(),
+      });
+    }
+
+    // Find shortcut/collapsed reference links [label]
+    shortcutRefPattern.lastIndex = 0;
+    while ((match = shortcutRefPattern.exec(line)) != null) {
+      // Skip if this looks like it's inside a full reference (already captured)
+      // or if it's an image reference ![label]
+      const beforeMatch = line.slice(0, match.index);
+      if (beforeMatch.endsWith("[") || beforeMatch.endsWith("!")) continue;
+
+      results.push({
+        lineNumber: i + 1,
+        label: match[1].toLowerCase(),
+      });
+    }
+  }
+
+  return results;
+}

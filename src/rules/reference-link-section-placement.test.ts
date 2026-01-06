@@ -235,6 +235,33 @@ Content with [sub-link].
       const errors = getErrors(content);
       assert.equal(errors.length, 1);
     });
+
+    it("should report error when ref link is used in one block but defined in another", () => {
+      // This reproduces the AGENTS.md case where [mise] is used in the intro
+      // but defined after the "Package manager" subsection
+      const content = `Development commands
+--------------------
+
+This is a polyglot package supporting Deno, Node.js, and Bun.
+Use [mise] to manage runtime versions.
+
+### Package manager
+
+This project uses Deno as the primary development tool.
+
+[mise]: https://mise.jdx.dev/
+
+### Quality checks
+
+Some content here.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.match(
+        errors[0].errorDetail ?? "",
+        /Reference link definition for "mise"/,
+      );
+    });
   });
 
   describe("edge cases", () => {

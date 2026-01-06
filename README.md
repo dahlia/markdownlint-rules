@@ -14,6 +14,9 @@ Installation
 
 This package is available on both [JSR] and [npm].
 
+[JSR]: https://jsr.io/@hongminhee/markdownlint-rules
+[npm]: https://www.npmjs.com/package/@hongminhee/markdownlint-rules
+
 ### Deno
 
 ~~~~ sh
@@ -37,9 +40,6 @@ pnpm add -D @hongminhee/markdownlint-rules
 ~~~~ sh
 bun add -D @hongminhee/markdownlint-rules
 ~~~~
-
-[JSR]: https://jsr.io/@hongminhee/markdownlint-rules
-[npm]: https://www.npmjs.com/package/@hongminhee/markdownlint-rules
 
 
 Usage
@@ -320,6 +320,8 @@ This is a polyglot package supporting Deno, Node.js, and Bun.
 
 Install [mise] to manage runtime versions:
 
+[mise]: https://mise.jdx.dev/
+
 ~~~~ sh
 mise install
 ~~~~
@@ -333,8 +335,6 @@ deno task test:node  # Run tests with Node.js
 deno task test:bun   # Run tests with Bun
 pnpm run build       # Build for npm publishing
 ~~~~
-
-[mise]: https://mise.jdx.dev/
 
 
 License
