@@ -1,0 +1,60 @@
+{
+  "name": "@hongminhee/markdownlint-rules",
+  "version": "0.1.0",
+  "description": "Custom markdownlint rules for Hong Minhee's Markdown style",
+  "license": "MIT",
+  "author": {
+    "name": "Hong Minhee",
+    "email": "hong@minhee.org",
+    "url": "https://hongminhee.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dahlia/markdownlint-rules.git"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "bun": ">=1.2.0",
+    "deno": ">=2.3.0"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "require": "./dist/index.d.cts",
+        "import": "./dist/index.d.ts"
+      },
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./preset": {
+      "types": {
+        "require": "./dist/preset.d.cts",
+        "import": "./dist/preset.d.ts"
+      },
+      "require": "./dist/preset.cjs",
+      "import": "./dist/preset.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "markdownlint": ">=0.37.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "markdownlint": "^0.37.0",
+    "tsdown": "^0.9.0",
+    "typescript": "^5.8.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "prepack": "tsdown",
+    "test": "node --experimental-strip-types --test src/**/*.test.ts",
+    "test:bun": "bun test"
+  }
+}
