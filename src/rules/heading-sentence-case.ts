@@ -54,6 +54,9 @@ const DEFAULT_ALLOWED_WORDS: readonly string[] = [
   "Rails",
   "Laravel",
   "Spring",
+  "Zod",
+  "Valibot",
+  "Temporal",
 
   // Databases
   "PostgreSQL",
@@ -74,6 +77,27 @@ const DEFAULT_ALLOWED_WORDS: readonly string[] = [
   "TOML",
   "REST",
   "GraphQL",
+
+  // Common programming terms (conventionally capitalized)
+  "Boolean",
+  "Markdown",
+  "Unicode",
+  "ASCII",
+  "UTF",
+  "RegExp",
+  "URL",
+  "URI",
+  "API",
+
+  // Common acronyms and their plural forms
+  "CLI",
+  "CLIs",
+  "SDK",
+  "SDKs",
+  "IDE",
+  "IDEs",
+  "GUI",
+  "GUIs",
 
   // Companies and products
   "Google",

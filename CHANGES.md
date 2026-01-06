@@ -9,6 +9,15 @@ To be released.
  -  HM001 (`list-item-marker-space`) now skips content inside fenced code blocks.
     Previously, list items in code block examples were incorrectly flagged.
 
+ -  HM005 (`heading-sentence-case`) now allows more common programming terms
+    and acronyms by default:
+
+     -  Programming terms: `Boolean`, `Markdown`, `Unicode`, `ASCII`, `UTF`,
+        `RegExp`, `URL`, `URI`, `API`
+     -  Acronyms with plurals: `CLI`/`CLIs`, `SDK`/`SDKs`, `IDE`/`IDEs`,
+        `GUI`/`GUIs`
+     -  Libraries: `Zod`, `Valibot`, `Temporal`
+
 
 Version 0.1.1
 -------------
