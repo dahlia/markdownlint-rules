@@ -155,10 +155,22 @@ Getting started
 
   describe("edge cases", () => {
     it("should ignore inline code in headings", () => {
-      const content = `# Using the \`FooBar\` method
+      const content = `# Say hello to \`Name\`
+
+## Blah \`Blah.blah\` blah
+
+### Using the \`SomeClass\` method
 `;
       const errors = getErrors(content);
       assert.equal(errors.length, 0);
+    });
+
+    it("should still detect violations outside inline code", () => {
+      const content = `# Say Hello to \`name\`
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.match(errors[0].errorDetail ?? "", /Hello/);
     });
 
     it("should handle links in headings", () => {
