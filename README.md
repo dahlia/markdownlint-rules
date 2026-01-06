@@ -126,11 +126,13 @@ Incorrect:
 
 ### HM002: fenced-code-fence-length
 
-Enforces that fenced code blocks use exactly four fence characters (tildes).
+Enforces that fenced code blocks use tildes with at least four characters
+(configurable), and that opening and closing fences have matching lengths.
 
 Using four tildes (`~~~~`) instead of three provides visual distinction and
 allows embedding triple-tilde blocks inside documentation about Markdown
-itself.
+itself.  Longer fences (5+) are allowed for nesting code blocks within
+documentation.
 
 #### Examples
 
@@ -142,6 +144,14 @@ const x = 1;
 ~~~~
 ~~~~
 
+~~~~~ markdown
+Nested code block example:
+
+~~~~ typescript
+const y = 2;
+~~~~
+~~~~~
+
 Incorrect:
 
 <!-- markdownlint-disable fenced-code-fence-length MD048 -->
@@ -150,30 +160,35 @@ Incorrect:
 const x = 1;
 ```
 
-~~~ typescript    # Only three tildes
+~~~ typescript    # Only three tildes (below minimum)
 const x = 1;
 ~~~
+
+~~~~ typescript   # Mismatched fence lengths
+const x = 1;
+~~~~~
 ~~~~
 <!-- markdownlint-enable fenced-code-fence-length MD048 -->
 
 #### Parameters
 
- -  `fence_length`: Required number of fence characters.  Default: `4`
+ -  `min_fence_length`: Minimum number of fence characters.  Default: `4`
 
 ---
 
 ### HM003: reference-link-section-placement
 
-Enforces that reference link definitions appear at the end of their containing
-section, not scattered throughout the content.
+Enforces that reference link definitions appear at the end of their content
+block—the region between any two headings (of any level).
 
-Placing reference links at section end keeps related content together.  When a
-section is moved or extracted, its links travel with it.
+Placing reference links at the end of content blocks keeps related content
+together.  When content is moved or extracted, its links travel with it.
 
 #### Examples
 
 Correct:
 
+<!-- markdownlint-disable MD031 MD040 -->
 ~~~~
 Some section
 ------------
@@ -182,15 +197,17 @@ Here is some text with a [link][example].
 
 [example]: https://example.com/
 
+### Subsection
 
-Another section
----------------
+More content with [another link][other].
 
-More content here.
+[other]: https://other.example.com/
 ~~~~
+<!-- markdownlint-enable MD031 MD040 -->
 
 Incorrect:
 
+<!-- markdownlint-disable MD031 MD040 -->
 ~~~~
 Some section
 ------------
@@ -199,11 +216,7 @@ Some section
 
 Here is some text with a [link][example].
 ~~~~
-
-#### Parameters
-
- -  `section_level`: Heading level that defines section boundaries.
-    Default: `2`
+<!-- markdownlint-enable MD031 MD040 -->
 
 ---
 
@@ -218,6 +231,7 @@ Extra vertical space before major sections improves document scanability.
 
 Correct:
 
+<!-- markdownlint-disable MD031 MD040 -->
 ~~~~
 Document title
 ==============
@@ -236,9 +250,11 @@ Second section
 
 More content.
 ~~~~
+<!-- markdownlint-enable MD031 MD040 -->
 
 Incorrect:
 
+<!-- markdownlint-disable MD031 MD040 -->
 ~~~~
 Document title
 ==============
@@ -250,6 +266,7 @@ First section
 
 Only one blank line above.
 ~~~~
+<!-- markdownlint-enable MD031 MD040 -->
 
 #### Parameters
 
@@ -270,17 +287,21 @@ especially for technical documentation with many proper nouns and acronyms.
 
 Correct:
 
+<!-- markdownlint-disable MD031 MD040 -->
 ~~~~
 Development commands
 API reference for JavaScript
 ~~~~
+<!-- markdownlint-enable MD031 MD040 -->
 
 Incorrect:
 
+<!-- markdownlint-disable MD031 MD040 -->
 ~~~~
 Development Commands        # "Commands" should be lowercase
 Api Reference For Javascript # Multiple violations
 ~~~~
+<!-- markdownlint-enable MD031 MD040 -->
 
 #### Parameters
 
@@ -301,6 +322,7 @@ import preset from "@hongminhee/markdownlint-rules/preset";
 
 The preset configures:
 
+<!-- markdownlint-disable MD007 MD030 -->
  -  *MD003*: Setext headings with ATX for subsections
  -  *MD004*: Dash list markers
  -  *MD007*: 4-space list indentation
@@ -309,7 +331,9 @@ The preset configures:
  -  *MD030*: Disabled (replaced by HM001)
  -  *MD048*: Tilde code fences
  -  All five custom rules (HM001-HM005)
+<!-- markdownlint-enable MD007 MD030 -->
 
+<!-- markdownlint-disable MD012 -->
 
 Development
 -----------

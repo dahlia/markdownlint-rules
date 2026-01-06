@@ -46,7 +46,7 @@ import type { Configuration } from "markdownlint";
  *
  * Custom rules (all enabled with defaults):
  * - HM001: list-item-marker-space
- * - HM002: fenced-code-fence-length (4 tildes)
+ * - HM002: fenced-code-fence-length (minimum 4 tildes)
  * - HM003: reference-link-section-placement
  * - HM004: setext-heading-blank-lines (2 blank lines before h2)
  * - HM005: heading-sentence-case
@@ -71,7 +71,7 @@ const preset: Configuration = {
 
   // Custom rules configuration
   "list-item-marker-space": true,
-  "fenced-code-fence-length": { fence_length: 4 },
+  "fenced-code-fence-length": { min_fence_length: 4 },
   "reference-link-section-placement": true,
   "setext-heading-blank-lines": { lines_before_h2: 2 },
   "heading-sentence-case": true,

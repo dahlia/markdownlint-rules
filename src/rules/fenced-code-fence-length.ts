@@ -5,26 +5,35 @@ import type { Rule } from "markdownlint";
  */
 export interface FencedCodeFenceLengthConfig {
   /**
-   * Required number of fence characters.
+   * Minimum number of fence characters required.
    * @default 4
    */
-  readonly fence_length?: number;
+  readonly min_fence_length?: number;
 }
 
 /**
- * Enforces that fenced code blocks use exactly the specified number of
- * fence characters (default: 4).
+ * Enforces that fenced code blocks use tildes with at least the specified
+ * number of characters (default: 4), and that opening and closing fences
+ * have matching lengths.
  *
  * Using four tildes (`~~~~`) instead of three provides visual distinction
  * and allows embedding triple-tilde blocks inside documentation about
- * Markdown itself.
+ * Markdown itself.  Longer fences (5+) are allowed for nesting code blocks
+ * within documentation.
  *
  * @example
- * Correct (with default fence_length: 4):
+ * Correct (with default min_fence_length: 4):
  * ```markdown
  * ~~~~ typescript
  * const x = 1;
  * ~~~~
+ *
+ * ~~~~~ markdown
+ * Nested example:
+ * ~~~~ typescript
+ * const y = 2;
+ * ~~~~
+ * ~~~~~
  * ```
  *
  * Incorrect:
@@ -33,26 +42,32 @@ export interface FencedCodeFenceLengthConfig {
  * const x = 1;
  * ```
  *
- * ~~~ typescript    # Only three tildes
+ * ~~~ typescript    # Only three tildes (below minimum)
  * const x = 1;
  * ~~~
+ *
+ * ~~~~ typescript   # Mismatched fence lengths
+ * const x = 1;
+ * ~~~~~
  * ```
  */
 const fencedCodeFenceLength: Rule = {
   names: ["fenced-code-fence-length", "HM002"],
-  description: "Fenced code blocks should use the specified fence length",
+  description:
+    "Fenced code blocks should use tildes with at least the minimum length and matching pairs",
   tags: ["code", "fence"],
   parser: "none",
   function: (params, onError) => {
     const config = params.config as FencedCodeFenceLengthConfig | undefined;
-    const fenceLength = config?.fence_length ?? 4;
+    const minFenceLength = config?.min_fence_length ?? 4;
 
     // Matches fenced code block opening/closing lines
     // Captures: (leading whitespace)(fence characters)(info string)
     const fencePattern = /^(\s*)(`{3,}|~{3,})(.*)$/;
 
     let inCodeBlock = false;
-    let openingFence = "";
+    let openingFenceChar = "";
+    let openingFenceLength = 0;
     let openingIndent = "";
 
     for (let i = 0; i < params.lines.length; i++) {
@@ -68,25 +83,30 @@ const fencedCodeFenceLength: Rule = {
       if (!inCodeBlock) {
         // Opening fence
         inCodeBlock = true;
-        openingFence = fenceChar;
+        openingFenceChar = fenceChar;
+        openingFenceLength = actualLength;
         openingIndent = indent;
 
         // Check if it's using backticks instead of tildes
         const isBacktick = fenceChar === "`";
-        const wrongLength = actualLength !== fenceLength;
+        const tooShort = actualLength < minFenceLength;
 
-        if (isBacktick || wrongLength) {
+        if (isBacktick || tooShort) {
           const lineNumber = i + 1;
           let detail: string;
 
-          if (isBacktick && wrongLength) {
+          if (isBacktick && tooShort) {
             detail =
-              `Expected ${fenceLength} tildes, found ${actualLength} backticks`;
+              `Expected at least ${minFenceLength} tildes, found ${actualLength} backticks`;
           } else if (isBacktick) {
             detail = `Expected tildes, found backticks`;
           } else {
-            detail = `Expected ${fenceLength} tildes, found ${actualLength}`;
+            detail =
+              `Expected at least ${minFenceLength} tildes, found ${actualLength}`;
           }
+
+          // For fix, use minimum length for too-short fences
+          const fixLength = Math.max(actualLength, minFenceLength);
 
           onError({
             lineNumber,
@@ -96,35 +116,44 @@ const fencedCodeFenceLength: Rule = {
             fixInfo: {
               lineNumber,
               deleteCount: line.length,
-              insertText: indent + "~".repeat(fenceLength) + info,
+              insertText: indent + "~".repeat(fixLength) + info,
             },
           });
         }
       } else {
-        // Closing fence - must match opening fence character and be at same
-        // or greater indentation
+        // Closing fence - must match opening fence character, be at same
+        // or greater indentation, and have same or greater length
         if (
-          fenceChar === openingFence &&
-          indent.length >= openingIndent.length
+          fenceChar === openingFenceChar &&
+          indent.length >= openingIndent.length &&
+          actualLength >= openingFenceLength
         ) {
           inCodeBlock = false;
 
-          // Check if closing fence needs fixing
           const isBacktick = fenceChar === "`";
-          const wrongLength = actualLength !== fenceLength;
+          const tooShort = actualLength < minFenceLength;
+          const mismatchedLength = !tooShort && !isBacktick &&
+            actualLength !== openingFenceLength;
 
-          if (isBacktick || wrongLength) {
+          if (isBacktick || tooShort || mismatchedLength) {
             const lineNumber = i + 1;
             let detail: string;
 
-            if (isBacktick && wrongLength) {
+            if (isBacktick && tooShort) {
               detail =
-                `Expected ${fenceLength} tildes, found ${actualLength} backticks`;
+                `Expected at least ${minFenceLength} tildes, found ${actualLength} backticks`;
             } else if (isBacktick) {
               detail = `Expected tildes, found backticks`;
+            } else if (tooShort) {
+              detail =
+                `Expected at least ${minFenceLength} tildes, found ${actualLength}`;
             } else {
-              detail = `Expected ${fenceLength} tildes, found ${actualLength}`;
+              detail =
+                `Closing fence length (${actualLength}) does not match opening fence length (${openingFenceLength})`;
             }
+
+            // For fix, match the opening fence length (or minimum if too short)
+            const fixLength = Math.max(openingFenceLength, minFenceLength);
 
             onError({
               lineNumber,
@@ -134,12 +163,13 @@ const fencedCodeFenceLength: Rule = {
               fixInfo: {
                 lineNumber,
                 deleteCount: line.length,
-                insertText: indent + "~".repeat(fenceLength),
+                insertText: indent + "~".repeat(fixLength),
               },
             });
           }
 
-          openingFence = "";
+          openingFenceChar = "";
+          openingFenceLength = 0;
           openingIndent = "";
         }
       }

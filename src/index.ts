@@ -4,7 +4,7 @@
  * This package provides five custom rules:
  *
  * - **HM001**: list-item-marker-space (enforces ` -  ` format)
- * - **HM002**: fenced-code-fence-length (enforces four-character fences)
+ * - **HM002**: fenced-code-fence-length (enforces minimum four tildes)
  * - **HM003**: reference-link-section-placement (links at section end)
  * - **HM004**: setext-heading-blank-lines (two blank lines before h2)
  * - **HM005**: heading-sentence-case (sentence case for headings)
