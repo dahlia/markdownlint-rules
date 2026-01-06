@@ -157,7 +157,7 @@ const y = 2;
 Incorrect:
 
 <!-- markdownlint-disable fenced-code-fence-length MD048 -->
-~~~~
+~~~~~~
 ``` typescript    # Uses backticks
 const x = 1;
 ```
@@ -169,7 +169,7 @@ const x = 1;
 ~~~~ typescript   # Mismatched fence lengths
 const x = 1;
 ~~~~~
-~~~~
+~~~~~~
 <!-- markdownlint-enable fenced-code-fence-length MD048 -->
 
 #### Parameters
@@ -336,6 +336,7 @@ The preset configures:
 <!-- markdownlint-enable MD007 MD030 -->
 
 <!-- markdownlint-disable MD012 -->
+
 
 Development
 -----------
