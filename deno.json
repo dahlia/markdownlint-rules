@@ -11,6 +11,7 @@
     "markdownlint-cli2": "npm:markdownlint-cli2@^0.20.0"
   },
   "exclude": [
+    ".claude/",
     ".github/",
     "CLAUDE.md",
     "dist/",
@@ -24,7 +25,7 @@
     "check-versions": "deno run --allow-read --allow-write scripts/check_versions.ts",
     "check": {
       "dependencies": ["check-versions"],
-      "command": "deno check src/**/*.ts && deno lint && deno fmt --check && deno run -A npm:markdownlint-cli2 *.md && deno publish --dry-run --allow-dirty"
+      "command": "deno check src/**/*.ts && deno lint && deno fmt --check && deno run -A npm:markdownlint-cli2 *.md .claude/**/*.md && deno publish --dry-run --allow-dirty"
     },
     "test": "deno test --allow-read",
     "test:node": "pnpm build && node --experimental-strip-types --test src/**/*.test.ts",
