@@ -6,6 +6,15 @@ Version 0.1.6
 
 To be released.
 
+ -  Preset now disables MD028 (`no-blanks-blockquote`) to avoid false positives
+    with GitHub alerts.  MD028 reports errors when there are blank lines
+    between consecutive blockquotes, but this creates false positives when
+    using GitHub alerts (`> [!NOTE]`, `> [!TIP]`, etc.), which are separate
+    blockquote blocks that should be visually separated.  Modern documentation
+    generators (GitHub, VitePress, Docusaurus) render these correctly as
+    distinct alert boxes, and requiring no blank lines between them would
+    reduce source markdown readability.  [[#7]]
+
  -  Preset now disables MD051 (`link-fragments`) to avoid false positives
     with documentation generators.  MD051 validates link fragments using its
     own heading-to-fragment conversion rules, which often differ from those
@@ -17,6 +26,7 @@ To be released.
     value.  [[#6]]
 
 [#6]: https://github.com/dahlia/markdownlint-rules/issues/6
+[#7]: https://github.com/dahlia/markdownlint-rules/issues/7
 
 
 Version 0.1.5
