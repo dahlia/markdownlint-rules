@@ -221,14 +221,45 @@ const headingSentenceCase: Rule = {
         .replace(/\[([^\]]+)\]\[[^\]]*\]/g, "$1") // Replace reference links
         .replace(/[*_]+/g, ""); // Remove emphasis markers
 
-      const words = cleanedText.split(/\s+/).filter((w) => w.length > 0);
+      // Remove text inside quotation marks (straight and curly quotes)
+      // This handles "quoted", 'quoted', \u201cquoted\u201d, and \u2018quoted\u2019
+      const textWithoutQuotes = cleanedText
+        .replace(/[\u201c\u201d][^\u201c\u201d]*[\u201c\u201d]/g, "") // Curly double quotes
+        .replace(/"[^"]*"/g, "") // Straight double quotes
+        .replace(/[\u2018\u2019][^\u2018\u2019]*[\u2018\u2019]/g, "") // Curly single quotes
+        .replace(/'[^']*'/g, ""); // Straight single quotes
+
+      const words = textWithoutQuotes.split(/\s+/).filter((w) => w.length > 0);
 
       if (words.length === 0) continue;
 
-      // Check each word after the first
+      // Find the index of the first word that contains letters
+      // (skip leading numbers like "1.", "2.", etc.)
+      let firstAlphaIndex = 0;
+      for (let j = 0; j < words.length; j++) {
+        if (/\p{L}/u.test(words[j])) {
+          firstAlphaIndex = j;
+          break;
+        }
+      }
+
+      // Check each word after the first alphabetic word
       const violations: string[] = [];
-      for (let j = 1; j < words.length; j++) {
+      let afterColon = false;
+      for (let j = firstAlphaIndex + 1; j < words.length; j++) {
         const word = words[j];
+        const prevWord = words[j - 1];
+
+        // Check if previous word ends with a colon
+        if (prevWord.endsWith(":")) {
+          afterColon = true;
+        }
+
+        // Skip the first word after a colon (it starts a new clause)
+        if (afterColon) {
+          afterColon = false;
+          continue;
+        }
 
         // Skip punctuation-only tokens
         if (/^[^\p{L}]+$/u.test(word)) continue;

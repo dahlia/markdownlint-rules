@@ -164,4 +164,40 @@ describe("HM001: list-item-marker-space", () => {
       assert.equal(errors[0].fixInfo?.insertText, "     -  Nested item");
     });
   });
+
+  describe("GFM task list items", () => {
+    it("should skip GFM checkbox items (unchecked)", () => {
+      const content = `- [ ] Task item
+- [ ] Another task
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should skip GFM checkbox items (checked)", () => {
+      const content = `- [x] Completed task
+- [X] Another completed task
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should skip nested GFM checkbox items", () => {
+      const content = `- [ ] Top level task
+  - [ ] Nested task
+    - [x] Deeply nested completed
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should still enforce rules for non-checkbox items", () => {
+      const content = `- [ ] Task item
+- Regular item without checkbox
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.equal(errors[0].lineNumber, 2);
+    });
+  });
 });

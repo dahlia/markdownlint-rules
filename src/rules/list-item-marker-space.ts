@@ -67,6 +67,9 @@ const listItemMarkerSpace: Rule = {
       // Skip non-dash markers (we only enforce this for dash)
       if (marker !== "-") continue;
 
+      // Skip GFM task list items (checkbox syntax: [ ], [x], [X])
+      if (/^\[[ xX]\]\s/.test(content)) continue;
+
       const lineNumber = i + 1;
       const leadingCount = leadingSpaces.length;
       const spacesAfterCount = spacesAfter.length;

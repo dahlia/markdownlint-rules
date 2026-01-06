@@ -205,5 +205,76 @@ Getting started
       const errors = getErrors(content);
       assert.equal(errors.length, 0);
     });
+
+    it("should allow capitalization after colon", () => {
+      const content = `# Blah blah: Blah blah
+
+## Configuration: Getting started
+
+### Step one: Configure the settings
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should allow capitalization inside quotation marks", () => {
+      const content = `# Did you say "Hello?"
+
+## The "Quick Start" guide
+
+### Using the "Run" command
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should allow capitalization inside single quotation marks", () => {
+      const content = `# The 'Hello World' example
+
+## Understanding the 'Start' button
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should allow capitalization inside curly quotation marks", () => {
+      const content = `# Did you say \u201cHello?\u201d
+
+## The \u201cQuick Start\u201d guide
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should still detect violations outside quotes and before colons", () => {
+      const content = `# Some Bad heading: good part
+
+## A Title Case "quoted" heading
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 2);
+      assert.match(errors[0].errorDetail ?? "", /Bad/);
+      assert.match(errors[1].errorDetail ?? "", /Title/);
+      assert.match(errors[1].errorDetail ?? "", /Case/);
+    });
+
+    it("should allow capitalization after leading numbers", () => {
+      const content = `# 1. Getting started
+
+## 2. Configuration options
+
+### 10. Advanced settings
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should still detect violations after leading numbers", () => {
+      const content = `# 1. Getting Started
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.match(errors[0].errorDetail ?? "", /Started/);
+    });
   });
 });
