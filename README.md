@@ -1,10 +1,20 @@
 @hongminhee/markdownlint-rules
 ==============================
 
+[![JSR][JSR badge]][JSR]
+[![npm][npm badge]][npm]
+[![GitHub Actions][GitHub Actions badge]][GitHub Actions]
+
 Custom [markdownlint] rules that enforce [Hong Minhee's Markdown style
 conventions][style].  These rules extend markdownlint with checks that cannot
 be achieved through built-in configuration alone.
 
+[JSR]: https://jsr.io/@hongminhee/markdownlint-rules
+[JSR badge]: https://jsr.io/badges/@hongminhee/markdownlint-rules
+[npm]: https://www.npmjs.com/package/@hongminhee/markdownlint-rules
+[npm badge]: https://img.shields.io/npm/v/@hongminhee/markdownlint-rules?logo=npm
+[GitHub Actions]: https://github.com/dahlia/markdownlint-rules/actions/workflows/main.yaml
+[GitHub Actions badge]: https://github.com/dahlia/markdownlint-rules/actions/workflows/main.yaml/badge.svg
 [markdownlint]: https://github.com/DavidAnson/markdownlint
 [style]: ./AGENTS.md#markdown-style-guide
 
@@ -13,9 +23,6 @@ Installation
 ------------
 
 This package is available on both [JSR] and [npm].
-
-[JSR]: https://jsr.io/@hongminhee/markdownlint-rules
-[npm]: https://www.npmjs.com/package/@hongminhee/markdownlint-rules
 
 ### Deno
 
