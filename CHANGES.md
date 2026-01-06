@@ -1,6 +1,12 @@
 @hongminhee/markdownlint-rules changelog
 ========================================
 
+Version 0.1.6
+-------------
+
+To be released.
+
+
 Version 0.1.5
 -------------
 
