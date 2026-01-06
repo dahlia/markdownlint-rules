@@ -4,4 +4,4 @@
 Version 0.1.0
 -------------
 
-To be released.
+Released on January 6, 2026.  Initial release.
