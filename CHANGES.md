@@ -15,7 +15,7 @@ Released on January 6, 2026.
  -  Fixed HM005 (`heading-sentence-case`) to allow capitalization after colons
     (e.g., `Blah blah: Blah blah`) and inside quotation marks (e.g.,
     `Did you say "Hello?"`).  Both straight quotes (`"`, `'`) and curly quotes
-    (`"`, `"`, `'`, `'`) are now recognized.
+    (`“`, `”`, `‘`, `’`) are now recognized.
 
  -  Fixed HM005 (`heading-sentence-case`) to correctly handle headings that
     start with numbers (e.g., `1. Getting started`).  The first alphabetic
