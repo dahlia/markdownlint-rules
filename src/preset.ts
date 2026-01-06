@@ -38,11 +38,13 @@ import type { Configuration } from "markdownlint";
  * - MD024: allows duplicate headings in different sections
  * - MD025: allows multiple h1 in examples
  * - MD027: conflicts with ' -  ' list style in blockquotes
+ * - MD028: conflicts with GitHub alerts and multiple consecutive blockquotes
  * - MD030: replaced by HM001
  * - MD031: conflicts with examples in code blocks
  * - MD038: allows spaces in code spans like ` -  `
  * - MD040: allows code blocks without language in examples
  * - MD046: conflicts with definition list syntax
+ * - MD051: conflicts with documentation generators' fragment rules
  * - MD053: allows duplicate link definitions in examples
  * - MD059: allows non-descriptive link text in examples
  *
@@ -64,12 +66,14 @@ const preset: Configuration = {
   MD022: false, // Disabled: conflicts with examples in code blocks
   MD024: false, // Disabled: allows duplicate headings in different sections
   MD025: false, // Disabled: allows multiple h1 in examples
+  MD028: false, // Disabled: conflicts with GitHub alerts and multiple consecutive blockquotes
   MD030: false, // Disabled: replaced by HM001
   MD031: false, // Disabled: conflicts with examples in code blocks
   MD038: false, // Disabled: allows spaces in code spans like ` -  `
   MD040: false, // Disabled: allows code blocks without language in examples
   MD046: false, // Disabled: conflicts with definition list syntax
   MD048: { style: "tilde" },
+  MD051: false, // Disabled: conflicts with documentation generators' fragment rules
   MD053: false, // Disabled: allows duplicate link definitions in examples
   MD059: false, // Disabled: allows non-descriptive link text in examples
 
