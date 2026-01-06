@@ -6,10 +6,19 @@
     ".": "./src/index.ts",
     "./preset": "./src/preset.ts"
   },
-  "exclude": ["*.md", "dist/", "pnpm-lock.yaml", "tsdown.config.ts"],
   "imports": {
     "markdownlint": "npm:markdownlint@^0.37.0",
     "markdownlint-cli2": "npm:markdownlint-cli2@^0.20.0"
+  },
+  "exclude": [
+    ".github/",
+    "CLAUDE.md",
+    "dist/",
+    "pnpm-lock.yaml",
+    "tsdown.config.ts"
+  ],
+  "fmt": {
+    "exclude": ["*.md"]
   },
   "tasks": {
     "check-versions": "deno run --allow-read --allow-write scripts/check_versions.ts",

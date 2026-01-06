@@ -1,0 +1,98 @@
+name: main
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    tags:
+      - "*.*.*"
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MISE_EXPERIMENTAL: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - run: pnpm install
+    - run: deno task check
+
+  test-deno:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - run: deno install
+    - run: deno task test
+
+  test-node:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - run: pnpm install
+    - run: deno task test:node
+
+  test-bun:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - run: pnpm install
+    - run: deno task test:bun
+
+  publish:
+    if: github.event_name == 'push'
+    needs: [check, test-deno, test-node, test-bun]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "24"
+        registry-url: "https://registry.npmjs.org"
+    - run: npm install -g npm@latest
+    - run: pnpm install
+    - name: Verify or update version
+      run: |
+        set -ex
+        if [[ "$GITHUB_REF_TYPE" == tag ]]; then
+          deno task check-versions
+          [[ "$(jq -r '.version' deno.json)" == "$GITHUB_REF_NAME" ]]
+        else
+          jq \
+            --arg build "$GITHUB_RUN_NUMBER" \
+            --arg commit "${GITHUB_SHA::8}" \
+            '.version = .version + "-dev." + $build + "+" + $commit' \
+            deno.json > /tmp/deno.json
+          mv /tmp/deno.json deno.json
+          deno task check-versions --fix
+        fi
+    - name: Build for npm
+      run: pnpm run build
+    - name: Publish to JSR
+      run: deno publish --allow-dirty
+    - name: Publish to npm
+      run: |
+        set -ex
+        if [[ "$GITHUB_REF_TYPE" == tag ]]; then
+          npm publish --access public --provenance
+        else
+          npm publish --access public --provenance --tag dev
+        fi
