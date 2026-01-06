@@ -4,7 +4,7 @@
 Version 0.2.1
 -------------
 
-To be released.
+Released on January 6, 2026.
 
  -  Fixed HM003 (`reference-link-section-placement`) to recognize thematic
     breaks (`---`, `***`, `___`, or with spaces like `- - -`) as content block
