@@ -15,6 +15,10 @@ To be released.
     start with numbers (e.g., `1. Getting started`).  The first alphabetic
     word is now treated as the sentence start.
 
+ -  HM001 (`list-item-marker-space`) now skips GFM task list items (checkbox
+    syntax like `- [ ]` and `- [x]`).  These items do not need to follow the
+    ` -  ` format.
+
 
 Version 0.1.0
 -------------
