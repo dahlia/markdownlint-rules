@@ -37,6 +37,7 @@ import type { Configuration } from "markdownlint";
  * - MD022: conflicts with examples in code blocks
  * - MD024: allows duplicate headings in different sections
  * - MD025: allows multiple h1 in examples
+ * - MD027: conflicts with ' -  ' list style in blockquotes
  * - MD030: replaced by HM001
  * - MD031: conflicts with examples in code blocks
  * - MD038: allows spaces in code spans like ` -  `
@@ -58,6 +59,7 @@ const preset: Configuration = {
   MD007: false, // Disabled: conflicts with ' -  ' list style (HM001)
   MD012: false, // Disabled: conflicts with 2 blank lines before h2 (HM004)
   MD013: { line_length: 80, tables: false },
+  MD027: false, // Disabled: conflicts with ' -  ' list style in blockquotes
   MD022: false, // Disabled: conflicts with examples in code blocks
   MD024: false, // Disabled: allows duplicate headings in different sections
   MD025: false, // Disabled: allows multiple h1 in examples
