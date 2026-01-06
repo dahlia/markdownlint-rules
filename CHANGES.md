@@ -4,7 +4,7 @@
 Version 0.1.4
 -------------
 
-To be released.
+Released on January 7, 2026.
 
  -  Fixed HM003 (`reference-link-section-placement`) to recognize multi-line
     reference link definitions.  Previously, continuation lines (indented lines
