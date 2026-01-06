@@ -489,5 +489,65 @@ More content.
         /Reference link definition for "link"/,
       );
     });
+
+    it("should pass for multi-line reference link definitions at content block end", () => {
+      // Regression test for https://github.com/dahlia/markdownlint-rules/issues/4
+      const content = `Runtime support
+---------------
+
+Some text with a footnote.[^1]
+
+[^1]: This is a long footnote that spans
+      multiple lines for readability.
+
+### Subsection
+
+More content here.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should pass for multi-line reference links with various continuation indents", () => {
+      const content = `Section
+-------
+
+Text with [link1] and [link2].
+
+[link1]: https://example.com/very-long-url-that-continues
+         on the next line
+[link2]: https://example.com/another-url
+    with different indentation
+
+### Next section
+
+Content.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should report error when multi-line ref link is followed by content", () => {
+      const content = `Section
+-------
+
+Text with [link].
+
+[link]: https://example.com/
+        multi-line definition
+
+More content after the reference.
+
+### Next section
+
+Content.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.match(
+        errors[0].errorDetail ?? "",
+        /Reference link definition for "link"/,
+      );
+    });
   });
 });

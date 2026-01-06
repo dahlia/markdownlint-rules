@@ -6,6 +6,14 @@ Version 0.1.4
 
 To be released.
 
+ -  Fixed HM003 (`reference-link-section-placement`) to recognize multi-line
+    reference link definitions.  Previously, continuation lines (indented lines
+    following a reference link definition) were treated as regular content,
+    causing false positives when multi-line reference links were placed at
+    the content block end.  [[#4]]
+
+[#4]: https://github.com/dahlia/markdownlint-rules/issues/4
+
 
 Version 0.1.3
 -------------

@@ -350,18 +350,44 @@ export function findLastContentLine(
   const refLinkPattern = /^\s*\[.+\]:\s+\S+/;
   const codeBlockLines = findCodeBlockLines(lines);
 
+  // First pass: identify all reference link definitions and their continuation lines
+  const refLinkLines = new Set<number>();
+  for (let i = startLine - 1; i < endLine; i++) {
+    if (codeBlockLines.has(i)) continue;
+
+    const line = lines[i];
+    if (refLinkPattern.test(line)) {
+      refLinkLines.add(i);
+      // Mark continuation lines (indented lines immediately following)
+      for (let j = i + 1; j < endLine; j++) {
+        if (codeBlockLines.has(j)) break;
+        const nextLine = lines[j];
+        // Blank line ends the multi-line ref link
+        if (nextLine.trim().length === 0) break;
+        // Continuation lines start with whitespace
+        if (/^\s+\S/.test(nextLine)) {
+          refLinkLines.add(j);
+        } else {
+          // Non-indented, non-blank line ends the multi-line ref link
+          break;
+        }
+      }
+    }
+  }
+
+  // Second pass: find last content line
   for (let i = endLine - 1; i >= startLine - 1; i--) {
     // Skip lines inside code blocks
     if (codeBlockLines.has(i)) continue;
+
+    // Skip reference link definition lines
+    if (refLinkLines.has(i)) continue;
 
     const line = lines[i];
     const trimmed = line.trim();
 
     // Skip blank lines
     if (trimmed.length === 0) continue;
-
-    // Skip reference link definitions
-    if (refLinkPattern.test(line)) continue;
 
     return i + 1; // Convert to 1-based
   }
