@@ -6,6 +6,14 @@ Version 0.1.2
 
 To be released.
 
+ -  Fixed HM003 (`reference-link-section-placement`) to recognize thematic
+    breaks (`---`, `***`, `___`, or with spaces like `- - -`) as content block
+    boundaries.  Previously, reference link definitions placed before a thematic
+    break were incorrectly reported as not being at the content block end.
+    [[#1]]
+
+[#1]: https://github.com/dahlia/markdownlint-rules/issues/1
+
 
 Version 0.1.1
 -------------
