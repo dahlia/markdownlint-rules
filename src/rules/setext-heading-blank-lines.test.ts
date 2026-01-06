@@ -248,6 +248,35 @@ Content.
       const errors = getErrors(content);
       assert.equal(errors.length, 0);
     });
+
+    it("should not require extra blank lines when h2 follows h1 with no content", () => {
+      const content = `Document title
+==============
+
+Section one
+-----------
+
+Content here.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should not require extra blank lines when h3 follows h2 with no content", () => {
+      const content = `Document title
+==============
+
+
+Section one
+-----------
+
+### Subsection
+
+Content here.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
   });
 
   describe("fix information", () => {

@@ -115,7 +115,20 @@ const setextHeadingBlankLines: Rule = {
       }
 
       // First heading in document (after front matter) doesn't need blank lines
-      if (i - 2 - blankLineCount < 0) continue;
+      const firstContentLineIndex = i - 2 - blankLineCount;
+      if (firstContentLineIndex < 0) continue;
+
+      // Check if the previous non-blank content is a parent Setext heading
+      // (i.e., a heading of higher level with no content between)
+      const prevContentLine = params.lines[firstContentLineIndex];
+      const prevSetextMatch = /^(=+|-+)\s*$/.exec(prevContentLine);
+      if (prevSetextMatch != null) {
+        // Previous line is a Setext underline - check if it's a parent heading
+        const prevIsH1 = prevSetextMatch[1][0] === "=";
+        const prevLevel = prevIsH1 ? 1 : 2;
+        // Skip blank line requirement if current heading is a child of previous
+        if (prevLevel < level) continue;
+      }
 
       // Check if we have enough blank lines
       if (blankLineCount < requiredBlankLines) {

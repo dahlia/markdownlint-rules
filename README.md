@@ -229,6 +229,10 @@ one blank line before the document title (level 1).
 
 Extra vertical space before major sections improves document scanability.
 
+> [!NOTE]
+> When a heading immediately follows a parent heading with no content between
+> them (e.g., h2 directly after h1), only one blank line is required.
+
 #### Examples
 
 Correct:
@@ -251,6 +255,20 @@ Second section
 --------------
 
 More content.
+~~~~
+<!-- markdownlint-enable MD031 MD040 -->
+
+Also correct (h2 directly after h1 with no content):
+
+<!-- markdownlint-disable MD031 MD040 -->
+~~~~
+Document title
+==============
+
+First section
+-------------
+
+Section content.
 ~~~~
 <!-- markdownlint-enable MD031 MD040 -->
 

@@ -303,6 +303,8 @@ document title needs less space since it appears at the top.
 ~~~~ text
 For each Setext heading:
   Count blank lines immediately preceding the heading text
+  If previous non-blank content is a parent heading (higher level):
+    Skip blank line check (no extra spacing needed)
   If heading level is 1:
     If blank_lines < 1 and not at document start:
       Report error
@@ -310,6 +312,12 @@ For each Setext heading:
     If blank_lines < 2:
       Report error
 ~~~~
+
+> [!NOTE]
+> When a heading immediately follows a parent heading with no content between
+> them, the blank line requirement is waived.  For example, an h2 directly
+> after an h1 only needs one blank line (the standard paragraph separation),
+> not two.
 
 #### Parameters
 
@@ -338,6 +346,18 @@ Second section
 --------------
 
 More content.
+~~~~
+
+Also correct (h2 directly after h1 with no content):
+
+~~~~ markdown
+Document title
+==============
+
+First section
+-------------
+
+Section content.
 ~~~~
 
 Incorrect:
