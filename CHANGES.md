@@ -4,7 +4,7 @@
 Version 0.2.4
 -------------
 
-To be released.
+Released on January 7, 2026.
 
  -  Preset now disables MD046 (`code-block-style`) to avoid conflict with
     definition list syntax.  MD046 treats indented content within definition
