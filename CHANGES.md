@@ -4,7 +4,7 @@
 Version 0.2.5
 -------------
 
-To be released.
+Released on January 7, 2026.
 
  -  Preset now disables MD028 (`no-blanks-blockquote`) to avoid false positives
     with GitHub alerts.  MD028 reports errors when there are blank lines
