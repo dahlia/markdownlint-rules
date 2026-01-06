@@ -144,6 +144,15 @@ export interface HeadingSentenceCaseConfig {
    * @default true
    */
   readonly ignore_acronyms?: boolean;
+
+  /**
+   * Whether to ignore PascalCase words (likely type/class names).
+   * A word is considered PascalCase if it starts with uppercase and contains
+   * at least one lowercase letter followed by an uppercase letter (e.g.,
+   * `LogOutput`, `MyClass`, `StringBuilder`).
+   * @default true
+   */
+  readonly ignore_pascal_case?: boolean;
 }
 
 /**
@@ -175,6 +184,7 @@ const headingSentenceCase: Rule = {
     const config = params.config as HeadingSentenceCaseConfig | undefined;
     const customAllowedWords = config?.allowed_words ?? [];
     const ignoreAcronyms = config?.ignore_acronyms ?? true;
+    const ignorePascalCase = config?.ignore_pascal_case ?? true;
 
     // Combine default and custom allowed words
     const allowedWords = new Set([
@@ -303,6 +313,10 @@ const headingSentenceCase: Rule = {
 
         // Skip acronyms (all caps) if configured
         if (ignoreAcronyms && actualWord === actualWord.toUpperCase()) continue;
+
+        // Skip PascalCase words (likely type/class names) if configured
+        // PascalCase: starts with uppercase, has lowercase followed by uppercase
+        if (ignorePascalCase && /^[A-Z][a-z]+[A-Z]/.test(actualWord)) continue;
 
         violations.push(actualWord);
       }

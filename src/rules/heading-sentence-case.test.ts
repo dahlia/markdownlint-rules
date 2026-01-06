@@ -128,14 +128,15 @@ Getting started
 
   describe("configuration", () => {
     it("should respect custom allowed_words", () => {
-      const content = `# Working with FooBar
+      const content = `# Working with Foobar
 `;
-      // Without FooBar in allowed words, this would fail
+      // Without Foobar in allowed words, this would fail
+      // (Note: "Foobar" is not PascalCase since it has no internal uppercase)
       const errorsDefault = getErrors(content);
       assert.equal(errorsDefault.length, 1);
 
-      // With FooBar allowed, this should pass
-      const errorsCustom = getErrors(content, { allowed_words: ["FooBar"] });
+      // With Foobar allowed, this should pass
+      const errorsCustom = getErrors(content, { allowed_words: ["Foobar"] });
       assert.equal(errorsCustom.length, 0);
     });
 
@@ -275,6 +276,39 @@ Getting started
       const errors = getErrors(content);
       assert.equal(errors.length, 1);
       assert.match(errors[0].errorDetail ?? "", /Started/);
+    });
+
+    it("should allow PascalCase words (type/class names) by default", () => {
+      const content = `# Creating sink from LogOutput
+
+## Working with StringBuilder
+
+### Using MyClass in production
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should respect ignore_pascal_case setting", () => {
+      const content = `# Creating sink from LogOutput
+`;
+      // With ignore_pascal_case: true (default), PascalCase is ignored
+      const errorsDefault = getErrors(content);
+      assert.equal(errorsDefault.length, 0);
+
+      // With ignore_pascal_case: false, PascalCase is flagged
+      const errorsCustom = getErrors(content, { ignore_pascal_case: false });
+      assert.equal(errorsCustom.length, 1);
+      assert.match(errorsCustom[0].errorDetail ?? "", /LogOutput/);
+    });
+
+    it("should not treat single capital words as PascalCase", () => {
+      const content = `# Working with Commands
+`;
+      // "Commands" is not PascalCase (no internal uppercase after lowercase)
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.match(errors[0].errorDetail ?? "", /Commands/);
     });
   });
 });

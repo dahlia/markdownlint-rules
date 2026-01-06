@@ -18,6 +18,11 @@ To be released.
         `GUI`/`GUIs`
      -  Libraries: `Zod`, `Valibot`, `Temporal`
 
+ -  HM005 (`heading-sentence-case`) now ignores PascalCase words by default,
+    as they typically represent type or class names in technical documentation
+    (e.g., `LogOutput`, `StringBuilder`).  This can be disabled via the
+    `ignore_pascal_case` option.
+
 
 Version 0.1.1
 -------------
