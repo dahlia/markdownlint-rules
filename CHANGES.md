@@ -7,6 +7,34 @@ Version 0.3.0
 To be released.
 
 
+Version 0.2.5
+-------------
+
+Released on January 7, 2026.
+
+ -  Preset now disables MD028 (`no-blanks-blockquote`) to avoid false positives
+    with GitHub alerts.  MD028 reports errors when there are blank lines
+    between consecutive blockquotes, but this creates false positives when
+    using GitHub alerts (`> [!NOTE]`, `> [!TIP]`, etc.), which are separate
+    blockquote blocks that should be visually separated.  Modern documentation
+    generators (GitHub, VitePress, Docusaurus) render these correctly as
+    distinct alert boxes, and requiring no blank lines between them would
+    reduce source markdown readability.  [[#7]]
+
+ -  Preset now disables MD051 (`link-fragments`) to avoid false positives
+    with documentation generators.  MD051 validates link fragments using its
+    own heading-to-fragment conversion rules, which often differ from those
+    used by actual documentation generators (VitePress, Docusaurus, GitHub,
+    etc.).  This mismatch causes false positives when links work correctly
+    in the generated documentation but are flagged by markdownlint.  Since
+    documentation generators validate fragment links at build time, having
+    markdownlint validate them with different rules creates more noise than
+    value.  [[#6]]
+
+[#6]: https://github.com/dahlia/markdownlint-rules/issues/6
+[#7]: https://github.com/dahlia/markdownlint-rules/issues/7
+
+
 Version 0.2.4
 -------------
 
@@ -43,7 +71,6 @@ Released on January 6, 2026.
 
  -  Preset now disables MD027 (`no-multiple-space-blockquote`) to avoid
     conflict with HM001's ` -  ` list style inside blockquotes.  [[#3]]
-
 
 [#3]: https://github.com/dahlia/markdownlint-rules/issues/3
 
@@ -88,6 +115,31 @@ Released on January 6, 2026.
     as they typically represent type or class names in technical documentation
     (e.g., `LogOutput`, `StringBuilder`).  This can be disabled via the
     `ignore_pascal_case` option.
+
+
+Version 0.1.6
+-------------
+
+Released on January 7, 2026.
+
+ -  Preset now disables MD028 (`no-blanks-blockquote`) to avoid false positives
+    with GitHub alerts.  MD028 reports errors when there are blank lines
+    between consecutive blockquotes, but this creates false positives when
+    using GitHub alerts (`> [!NOTE]`, `> [!TIP]`, etc.), which are separate
+    blockquote blocks that should be visually separated.  Modern documentation
+    generators (GitHub, VitePress, Docusaurus) render these correctly as
+    distinct alert boxes, and requiring no blank lines between them would
+    reduce source markdown readability.  [[#7]]
+
+ -  Preset now disables MD051 (`link-fragments`) to avoid false positives
+    with documentation generators.  MD051 validates link fragments using its
+    own heading-to-fragment conversion rules, which often differ from those
+    used by actual documentation generators (VitePress, Docusaurus, GitHub,
+    etc.).  This mismatch causes false positives when links work correctly
+    in the generated documentation but are flagged by markdownlint.  Since
+    documentation generators validate fragment links at build time, having
+    markdownlint validate them with different rules creates more noise than
+    value.  [[#6]]
 
 
 Version 0.1.5
@@ -148,7 +200,7 @@ Released on January 6, 2026.
  -  Fixed HM005 (`heading-sentence-case`) to allow capitalization after colons
     (e.g., `Blah blah: Blah blah`) and inside quotation marks (e.g.,
     `Did you say "Hello?"`).  Both straight quotes (`"`, `'`) and curly quotes
-    (`“`, `”`, `‘`, `’`) are now recognized.
+    (`"`, `"`, `'`, `'`) are now recognized.
 
  -  Fixed HM005 (`heading-sentence-case`) to correctly handle headings that
     start with numbers (e.g., `1. Getting started`).  The first alphabetic
