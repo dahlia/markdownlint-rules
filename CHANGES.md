@@ -7,6 +7,21 @@ Version 0.3.0
 To be released.
 
 
+Version 0.2.4
+-------------
+
+Released on January 7, 2026.
+
+ -  Preset now disables MD046 (`code-block-style`) to avoid conflict with
+    definition list syntax.  MD046 treats indented content within definition
+    lists as indented code blocks and reports false positives.  Since
+    markdownlint is based on CommonMark and does not recognize definition
+    list syntax (a Markdown extension), it cannot distinguish between
+    indented code blocks and definition list content.  [[#5]]
+
+[#5]: https://github.com/dahlia/markdownlint-rules/issues/5
+
+
 Version 0.2.3
 -------------
 
@@ -17,6 +32,8 @@ Released on January 7, 2026.
     following a reference link definition) were treated as regular content,
     causing false positives when multi-line reference links were placed at
     the content block end.  [[#4]]
+
+[#4]: https://github.com/dahlia/markdownlint-rules/issues/4
 
 
 Version 0.2.2
@@ -48,7 +65,6 @@ Released on January 6, 2026.
 
 [#1]: https://github.com/dahlia/markdownlint-rules/issues/1
 [#2]: https://github.com/dahlia/markdownlint-rules/issues/2
-[#4]: https://github.com/dahlia/markdownlint-rules/issues/4
 
 
 Version 0.2.0
@@ -72,6 +88,19 @@ Released on January 6, 2026.
     as they typically represent type or class names in technical documentation
     (e.g., `LogOutput`, `StringBuilder`).  This can be disabled via the
     `ignore_pascal_case` option.
+
+
+Version 0.1.5
+-------------
+
+Released on January 7, 2026.
+
+ -  Preset now disables MD046 (`code-block-style`) to avoid conflict with
+    definition list syntax.  MD046 treats indented content within definition
+    lists as indented code blocks and reports false positives.  Since
+    markdownlint is based on CommonMark and does not recognize definition
+    list syntax (a Markdown extension), it cannot distinguish between
+    indented code blocks and definition list content.  [[#5]]
 
 
 Version 0.1.4

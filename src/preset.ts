@@ -42,6 +42,7 @@ import type { Configuration } from "markdownlint";
  * - MD031: conflicts with examples in code blocks
  * - MD038: allows spaces in code spans like ` -  `
  * - MD040: allows code blocks without language in examples
+ * - MD046: conflicts with definition list syntax
  * - MD053: allows duplicate link definitions in examples
  * - MD059: allows non-descriptive link text in examples
  *
@@ -67,6 +68,7 @@ const preset: Configuration = {
   MD031: false, // Disabled: conflicts with examples in code blocks
   MD038: false, // Disabled: allows spaces in code spans like ` -  `
   MD040: false, // Disabled: allows code blocks without language in examples
+  MD046: false, // Disabled: conflicts with definition list syntax
   MD048: { style: "tilde" },
   MD053: false, // Disabled: allows duplicate link definitions in examples
   MD059: false, // Disabled: allows non-descriptive link text in examples
