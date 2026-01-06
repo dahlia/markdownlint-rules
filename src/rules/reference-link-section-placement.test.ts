@@ -404,5 +404,90 @@ Content with [link].
       const errors = getErrors(content);
       assert.equal(errors.length, 0);
     });
+
+    it("should recognize thematic break (---) as content block boundary", () => {
+      // Regression test for https://github.com/dahlia/markdownlint-rules/issues/1
+      const content = `Some section
+------------
+
+Here is some text with a [link][example].
+
+[example]: https://example.com/
+
+---
+
+Another section content here.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should recognize thematic break (***) as content block boundary", () => {
+      const content = `Section
+-------
+
+Text with [link].
+
+[link]: https://example.com/
+
+***
+
+More content.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should recognize thematic break (___) as content block boundary", () => {
+      const content = `Section
+-------
+
+Text with [link].
+
+[link]: https://example.com/
+
+___
+
+More content.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should recognize thematic break with spaces as content block boundary", () => {
+      const content = `Section
+-------
+
+Text with [link].
+
+[link]: https://example.com/
+
+- - -
+
+More content.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 0);
+    });
+
+    it("should report error for misplaced ref link after thematic break", () => {
+      const content = `Section
+-------
+
+Text with [link].
+
+---
+
+[link]: https://example.com/
+
+More content.
+`;
+      const errors = getErrors(content);
+      assert.equal(errors.length, 1);
+      assert.match(
+        errors[0].errorDetail ?? "",
+        /Reference link definition for "link"/,
+      );
+    });
   });
 });
