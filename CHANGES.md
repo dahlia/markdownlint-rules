@@ -74,6 +74,27 @@ Released on January 6, 2026.
     `ignore_pascal_case` option.
 
 
+Version 0.1.4
+-------------
+
+Released on January 7, 2026.
+
+ -  Fixed HM003 (`reference-link-section-placement`) to recognize multi-line
+    reference link definitions.  Previously, continuation lines (indented lines
+    following a reference link definition) were treated as regular content,
+    causing false positives when multi-line reference links were placed at
+    the content block end.  [[#4]]
+
+
+Version 0.1.3
+-------------
+
+Released on January 6, 2026.
+
+ -  Preset now disables MD027 (`no-multiple-space-blockquote`) to avoid conflict
+    with HM001's ` -  ` list style inside blockquotes.  [[#3]]
+
+
 Version 0.1.2
 -------------
 
