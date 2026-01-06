@@ -12,7 +12,12 @@ To be released.
     break were incorrectly reported as not being at the content block end.
     [[#1]]
 
+ -  Fixed preset's MD013 configuration to exclude tables from line length
+    checking (`tables: false`).  Tables often cannot be wrapped easily, so they
+    should not trigger line length errors.  [[#2]]
+
 [#1]: https://github.com/dahlia/markdownlint-rules/issues/1
+[#2]: https://github.com/dahlia/markdownlint-rules/issues/2
 
 
 Version 0.1.1

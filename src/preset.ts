@@ -28,7 +28,7 @@ import type { Configuration } from "markdownlint";
  * Built-in rules enabled:
  * - MD003: setext_with_atx (Setext for h1/h2, ATX for h3+)
  * - MD004: dash (use dash for unordered lists)
- * - MD013: 80-character line length
+ * - MD013: 80-character line length (tables excluded)
  * - MD048: tilde (use tildes for code fences)
  *
  * Built-in rules disabled (conflicts with Hong Minhee style):
@@ -57,7 +57,7 @@ const preset: Configuration = {
   MD004: { style: "dash" },
   MD007: false, // Disabled: conflicts with ' -  ' list style (HM001)
   MD012: false, // Disabled: conflicts with 2 blank lines before h2 (HM004)
-  MD013: { line_length: 80 },
+  MD013: { line_length: 80, tables: false },
   MD022: false, // Disabled: conflicts with examples in code blocks
   MD024: false, // Disabled: allows duplicate headings in different sections
   MD025: false, // Disabled: allows multiple h1 in examples
