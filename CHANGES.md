@@ -6,6 +6,11 @@ Version 0.2.2
 
 To be released.
 
+ -  Preset now disables MD027 (`no-multiple-space-blockquote`) to avoid
+    conflict with HM001's ` -  ` list style inside blockquotes.  [[#3]]
+
+[#3]: https://github.com/dahlia/markdownlint-rules/issues/3
+
 
 Version 0.2.1
 -------------
